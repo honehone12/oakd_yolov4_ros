@@ -67,7 +67,7 @@
                 return device_name + "_rgb_camera_optical_frame";
             }
 
-            //not sure right camera frame is suitable.
+            // as examples
             std::string getDepthFrameName()
             {
                 return device_name + "_right_camera_optical_frame";

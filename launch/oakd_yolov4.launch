@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <args for urdf/> -->
+    <arg name="camera_model"          default="OAK-D"   /> <!-- 'zed' or 'zedm' -->
+    <arg name="camera_name"           default="oak"         />
+    <arg name="base_frame"            default="oak-d_frame" />
+    <arg name="cam_pos_x"             default="0.0"        /> <!-- Position respect to base frame (i.e. "base_link) -->
+    <arg name="cam_pos_y"             default="0.0"        /> <!-- Position respect to base frame (i.e. "base_link) -->
+    <arg name="cam_pos_z"             default="0.0"        /> <!-- Position respect to base frame (i.e. "base_link) -->
+    <arg name="cam_roll"              default="0.0"     /> <!-- defalut was 1.5708. Orientation respect to base frame (i.e. "base_link) -->
+    <arg name="cam_pitch"             default="0.0"        /> <!-- Orientation respect to base frame (i.e. "base_link) -->
+    <arg name="cam_yaw"               default="0.0"     /> <!-- defalut was 1.5708. Orientation respect to base frame (i.e. "base_link) -->
+
+    <arg name="camera_param_uri"      default="$(find depthai_ros_examples)/depthai_examples/params/camera" />
+
+    <include file="$(find depthai_bridge)/launch/urdf.launch">
+        <arg name="base_frame"      value="$(arg  base_frame)"  />
+        <arg name="camera_model"    value="$(arg  camera_model)"/>
+        <arg name="camera_name"     value="$(arg  camera_name)" />
+        <arg name="cam_pos_x"       value="$(arg  cam_pos_x)"   />
+        <arg name="cam_pos_y"       value="$(arg  cam_pos_y)"   />
+        <arg name="cam_pos_z"       value="$(arg  cam_pos_z)"   />
+        <arg name="cam_roll"        value="$(arg  cam_roll)"    />
+        <arg name="cam_pitch"       value="$(arg  cam_pitch)"   />
+        <arg name="cam_yaw"         value="$(arg  cam_yaw)"     />
+    </include>
+    
+    <!-- oakd yolo publisher : rgb depth detection imu-->
+    <node name="oakd_yolov4" pkg="oakd_yolov4" type="oakd_yolov4_node" output="screen" required="true">
+        <param name="camera_name"      value="$(arg camera_name)" />
+        <param name="camera_param_uri" value="$(arg camera_param_uri)"/>
+
+    </node>
+    
+    <!-- convert to pose aaryay -->
+    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4_monitor" type="oakd_yolov4_monitor" output="screen"/>
+</launch>

@@ -67,7 +67,7 @@
                 return device_name + "_rgb_camera_optical_frame";
             }
 
-            // as examples
+            // as examples. call setDepthAlign() to chage or something ??
             std::string getDepthFrameName()
             {
                 return device_name + "_right_camera_optical_frame";
@@ -83,8 +83,7 @@
                 std::vector<DataOutputQueuePtr>& nnet_streams_buffer,
                 std::vector<DataOutputQueuePtr>& imu_streams_buffer,
                 bool sync_nn,
-                bool use_subpixel,
-                bool use_lr_check,
+                bool use_long_range,
                 float camera_fps,
                 uint32_t imu_fps
             );
@@ -95,8 +94,7 @@
                 std::vector<DataOutputQueuePtr>& nnet_streams_buffer,
                 std::vector<DataOutputQueuePtr>& imu_streams_buffer,
                 bool sync_nn,
-                bool use_subpixel,
-                bool use_rl_check,
+                bool use_long_range,
                 float camera_fps,
                 uint32_t imu_fps
         )
@@ -141,10 +139,11 @@
             imu_node_ptr->setBatchReportThreshold(1);
             imu_node_ptr->setMaxBatchReports(20);
             
-            stereo_depth_node_ptr->initialConfig.setConfidenceThreshold(255);
-            stereo_depth_node_ptr->setSubpixel(use_subpixel);
-            stereo_depth_node_ptr->setExtendedDisparity(!use_subpixel);
-            stereo_depth_node_ptr->setLeftRightCheck(use_rl_check);
+            // https://docs.luxonis.com/projects/api/en/latest/components/nodes/stereo_depth/?highlight=stereo%20depth
+            stereo_depth_node_ptr->initialConfig.setConfidenceThreshold(200);
+            stereo_depth_node_ptr->setSubpixel(use_long_range);
+            stereo_depth_node_ptr->setExtendedDisparity(!use_long_range);
+            stereo_depth_node_ptr->setLeftRightCheck(true);
 
             yolo_sdn_node_ptr->setBlobPath(nn_path);
             yolo_sdn_node_ptr->setConfidenceThreshold(0.5f);

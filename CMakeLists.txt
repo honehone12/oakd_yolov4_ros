@@ -153,7 +153,8 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
 )
 
-dai_add_node(oakd_yolov4 src/oakd_yolov4.cpp)
+dai_add_node(oakd_yolov4_full src/oakd_yolov4_full.cpp)
+dai_add_node(oakd_yolov4_minimum src/oakd_yolov4_minimum.cpp)
 dai_add_node(oakd_yolov4_monitor src/oakd_yolov4_monitor.cpp)
 
 ## Declare a C++ library

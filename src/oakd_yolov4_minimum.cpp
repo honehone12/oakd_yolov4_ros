@@ -1,25 +1,22 @@
-#include "oakd_yolov4/device_initializer.hpp"
+#include "oakd_yolov4/device_initializer_minimum.hpp"
 #include "depthai_bridge/ImageConverter.hpp"
 #include "depthai_bridge/BridgePublisher.hpp"
 #include "depthai_bridge/SpatialDetectionConverter.hpp"
-#include "depthai_bridge/ImuConverter.hpp"
 #include "sensor_msgs/Image.h"
-#include "sensor_msgs/Imu.h"
 
 int main(int argc, char** argv)
 {
     ros::init(
         argc,
         argv,
-        "oakd_yolo"
+        "oakd_yolov4_minimum"
     );
 
     ros::NodeHandle node_handle("~");
     std::vector<oakd_ros::DataOutputQueuePtr> image_data_streams;
     std::vector<oakd_ros::DataOutputQueuePtr> nnet_data_streams;
-    std::vector<oakd_ros::DataOutputQueuePtr> imu_data_streams;
 
-    oakd_ros::OakdYoloDeviceInitializer initializer(
+    oakd_ros::OakdYoloMinimumDeviceInitializer initializer(
         node_handle,
         "/home/marsh/mlros_ws/src/oakd_yolov4/resource/tiny-yolo-v4_openvino_2021.2_6shave.blob"
     );
@@ -28,12 +25,8 @@ int main(int argc, char** argv)
         initializer.initDevice(
             image_data_streams,
             nnet_data_streams,
-            imu_data_streams,
-            true,
-            true,
-            true,
-            15.0f,
-            200u
+            false,
+            30.0f
         );
     }
     else
@@ -61,25 +54,6 @@ int main(int argc, char** argv)
         "color"
     );
 
-    dai::rosBridge::ImageConverter depth_converter(
-        initializer.getDepthFrameName(),
-        true
-    );
-    dai::rosBridge::BridgePublisher<sensor_msgs::Image, dai::ImgFrame> depth_publisher(
-        image_data_streams[OAKD_IMAGE_STREAMS_DEPTH],
-        node_handle,
-        "stereo/depth",
-        std::bind(
-            &dai::rosBridge::ImageConverter::toRosMsg,
-            &depth_converter,
-            std::placeholders::_1,
-            std::placeholders::_2
-        ),
-        1,
-        initializer.getStereoURI(),
-        "stereo"
-    );
-
     dai::rosBridge::SpatialDetectionConverter detection_converter(
         initializer.getRGBFrameName(),
         416,
@@ -102,33 +76,12 @@ int main(int argc, char** argv)
         1
     );
 
-    dai::rosBridge::ImuConverter imu_converter(
-        initializer.getIMUFrameName()
-    );
-    dai::rosBridge::BridgePublisher<sensor_msgs::Imu, dai::IMUData> imu_publisher(
-        imu_data_streams[OAKD_IMU_STREAMS_IMU],
-        node_handle,
-        "imu",
-        std::bind(
-            &dai::rosBridge::ImuConverter::toRosMsg,
-            &imu_converter,
-            std::placeholders::_1,
-            std::placeholders::_2
-        ),
-        1
-    );
-
-    depth_publisher.addPubisherCallback();
-    //depth_publisher.startPublisherThread();
-    //detection_publisher.addPubisherCallback();
-    detection_publisher.startPublisherThread();
-    //rgb_publisher.addPubisherCallback();
-    rgb_publisher.startPublisherThread();
-    //imu_publisher.addPubisherCallback();
-    imu_publisher.startPublisherThread();
+    detection_publisher.addPubisherCallback();
+    //detection_publisher.startPublisherThread();
+    rgb_publisher.addPubisherCallback();
+    //rgb_publisher.startPublisherThread();
 
     ros::spin();
 
     return 0;
 }
-

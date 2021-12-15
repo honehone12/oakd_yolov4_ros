@@ -11,7 +11,7 @@
     <arg name="cam_pitch"             default="0.0"        /> <!-- Orientation respect to base frame (i.e. "base_link) -->
     <arg name="cam_yaw"               default="0.0"     /> <!-- defalut was 1.5708. Orientation respect to base frame (i.e. "base_link) -->
 
-    <arg name="camera_param_uri"      default="$(find depthai_ros_examples)/depthai_examples/params/camera" />
+    <arg name="camera_param_uri"      default="$(find depthai_examples)/params/camera" />
 
     <include file="$(find depthai_bridge)/launch/urdf.launch">
         <arg name="base_frame"      value="$(arg  base_frame)"  />
@@ -26,12 +26,12 @@
     </include>
     
     <!-- oakd yolo publisher : rgb depth detection imu-->
-    <node name="oakd_yolov4" pkg="oakd_yolov4" type="oakd_yolov4_node" output="screen" required="true">
+    <node name="oakd_yolov4" pkg="oakd_yolov4" type="oakd_yolov4_minimum" output="screen" required="true">
         <param name="camera_name"      value="$(arg camera_name)" />
         <param name="camera_param_uri" value="$(arg camera_param_uri)"/>
 
     </node>
     
     <!-- convert to pose aaryay -->
-    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4_monitor" type="oakd_yolov4_monitor" output="screen"/>
+    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4" type="oakd_yolov4_monitor" output="screen"/>
 </launch>

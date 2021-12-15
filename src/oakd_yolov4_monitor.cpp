@@ -58,38 +58,38 @@ namespace oakd_ros
             image_transport(node_handle),
             img_subscriber(
                 image_transport,
-                "/oakd_yolo/color/image",
+                "/oakd_yolov4/color/image",
                 1
             ),
             detect_subscriber(
                 node_handle,
-                "/oakd_yolo/color/yolov4_spatial_detections",
+                "/oakd_yolov4/color/yolov4_spatial_detections",
                 1
             ),
             all_publisher(
                 node_handle.advertise<geometry_msgs::PoseArray>(
-                    "/oakd_yolo_monitor/detected_all_pose_array",
+                    "detected_all_pose_array",
                     1,
                     false
                 )
             ),
             human_publisher(
                 node_handle.advertise<geometry_msgs::PoseArray>(
-                    "/oakd_yolo_monitor/human_pose_array",
+                    "human_pose_array",
                     1,
                     false
                 )
             ),
             single_human_publisher(
                 node_handle.advertise<geometry_msgs::PoseStamped>(
-                    "/oakd_yolo_monitor/calibrated_single_pose",
+                    "calibrated_single_pose",
                     1,
                     false
                 )
             ),
             img_publisher(
                 image_transport.advertise(
-                    "/oakd_yolo_monitor/image_labeled",
+                    "image_labeled",
                     1
                 )
             ),
@@ -243,10 +243,10 @@ int main(int argc, char** argv)
     ros::init(
         argc,
         argv,
-        "oakd_yolo_monitor"
+        "oakd_yolov4_monitor"
     );
 
-    ros::NodeHandle node_handle;
+    ros::NodeHandle node_handle("oakd_yolov4_monitor");
     oakd_ros::OakdYoloMonitor monitor(node_handle);
 
     ros::spin();

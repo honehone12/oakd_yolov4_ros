@@ -110,8 +110,7 @@ namespace oakd_ros
         mono_right_node_ptr->setBoardSocket(dai::CameraBoardSocket::RIGHT);
         mono_right_node_ptr->setFps(camera_fps);
         
-        // https://docs.luxonis.com/projects/api/en/latest/components/nodes/stereo_depth/?highlight=stereo%20depth
-        stereo_depth_node_ptr->initialConfig.setConfidenceThreshold(200);
+        stereo_depth_node_ptr->initialConfig.setConfidenceThreshold(245);
         stereo_depth_node_ptr->setSubpixel(use_long_range);
         stereo_depth_node_ptr->setExtendedDisparity(!use_long_range);
         stereo_depth_node_ptr->setLeftRightCheck(true);

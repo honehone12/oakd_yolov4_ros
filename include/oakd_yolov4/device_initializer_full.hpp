@@ -139,8 +139,7 @@ namespace oakd_ros
         imu_node_ptr->setBatchReportThreshold(1);
         imu_node_ptr->setMaxBatchReports(20);
         
-        // https://docs.luxonis.com/projects/api/en/latest/components/nodes/stereo_depth/?highlight=stereo%20depth
-        stereo_depth_node_ptr->initialConfig.setConfidenceThreshold(200);
+        stereo_depth_node_ptr->initialConfig.setConfidenceThreshold(245);
         stereo_depth_node_ptr->setSubpixel(use_long_range);
         stereo_depth_node_ptr->setExtendedDisparity(!use_long_range);
         stereo_depth_node_ptr->setLeftRightCheck(true);

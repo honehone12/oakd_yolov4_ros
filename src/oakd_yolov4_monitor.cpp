@@ -149,6 +149,13 @@ namespace oakd_ros
             geometry_msgs::Pose pose;
             pose.orientation = identity;
             pose.position.x = detected_msg->detections[i].position.x;
+            ////////////////////////////////////////////////////////
+            // todo:
+            // i think putting minus wrongly looked better 
+            // just because bounding box got wider in vertical actually.
+            // if so, this coordinate system become RUF.
+            // so, in this case, is fixing boundig box to 1:1
+            // make this better or not ??
             pose.position.y = -detected_msg->detections[i].position.y;
             pose.position.z = detected_msg->detections[i].position.z;
 

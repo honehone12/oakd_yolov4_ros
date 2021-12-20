@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 
     oakd_ros::OakdYoloMinimumDeviceInitializer initializer(
         node_handle,
-        "/home/marsh/mlros_ws/src/oakd_yolov4/oakd_yolov4_ros/resource/tiny-yolo-v4_openvino_2021.2_6shave.blob"
+        "/home/marsh/blobs/tiny-yolo-v4_openvino_2021.2_6shave.blob"
     );
     if(initializer.isReady())
     {

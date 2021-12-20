@@ -127,7 +127,7 @@ catkin_package(
 ## Build ##
 ###########
 
-# depthai original macro
+# depthai-ros-examples original macro
 macro(dai_add_node node_name node_src)
   add_executable("${node_name}" "${node_src}")
       

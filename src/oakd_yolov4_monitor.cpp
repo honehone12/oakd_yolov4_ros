@@ -156,7 +156,7 @@ namespace oakd_ros
             // if so, this coordinate system become RUF.
             // so, in this case, is fixing boundig box to 1:1
             // make this better or not ??
-            pose.position.y = -detected_msg->detections[i].position.y;
+            pose.position.y = detected_msg->detections[i].position.y;
             pose.position.z = detected_msg->detections[i].position.z;
 
             all_pose_msg.poses.push_back(pose);
@@ -224,19 +224,24 @@ namespace oakd_ros
         if(nearest_human_idx >= 0)
         {
             temp_point = detected_msg->detections[nearest_human_idx].position;
-            human_point_queue.emplace_back(temp_point);
+            human_point_queue.push_back(temp_point);
             sum.x += temp_point.x;
             sum.y += temp_point.y;
             sum.z += temp_point.z;
         }
         else
         {
-            human_point_queue.emplace_back();
+            temp_point.x = 0.0;
+            temp_point.y = 0.0;
+            temp_point.z = 1.0;
+            human_point_queue.push_back(temp_point);
+            sum.z += temp_point.z;
         }
 
         single_human_msg.pose.position.x = sum.x * OAKD_YOLO_MONITOR_DENOMINATOR;
         single_human_msg.pose.position.y = sum.y * OAKD_YOLO_MONITOR_DENOMINATOR;
         single_human_msg.pose.position.z = sum.z * OAKD_YOLO_MONITOR_DENOMINATOR;
+        single_human_msg.pose.orientation = identity;
         single_human_publisher.publish(single_human_msg);
 
         img_publisher.publish(cv_img_ptr->toImageMsg());

@@ -32,5 +32,6 @@
     </node>
     
     <!-- convert to pose array -->
-    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4" type="oakd_yolov4_monitor" output="screen"/>
+    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4" type="oakd_yolov4_monitor" output="log"
+        args="/home/marsh/blobs/tiny-yolo-v4_openvino_2021.2_6shave.blob"/>
 </launch>

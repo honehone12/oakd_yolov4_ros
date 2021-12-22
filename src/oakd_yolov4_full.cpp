@@ -14,6 +14,12 @@ int main(int argc, char** argv)
         "oakd_yolov4_full"
     );
 
+    if(argc != 2)
+    {
+        ROS_ERROR("model path is not given.");
+        return 1;
+    }
+
     ros::NodeHandle node_handle("~");
     std::vector<oakd_ros::DataOutputQueuePtr> image_data_streams;
     std::vector<oakd_ros::DataOutputQueuePtr> nnet_data_streams;
@@ -21,8 +27,7 @@ int main(int argc, char** argv)
 
     oakd_ros::OakdYoloDeviceInitializer initializer(
         node_handle,
-        // change model path //////////////////////////////////////
-        "/home/marsh/blobs/tiny-yolo-v4_openvino_2021.2_6shave.blob"
+        argv[1]
     );
     if(initializer.isReady())
     {

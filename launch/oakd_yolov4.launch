@@ -33,5 +33,5 @@
     </node>
     
     <!-- convert to pose array -->
-    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4" type="oakd_yolov4_monitor" output="log"/>
+    <node name="oakd_yolov4_monitor" pkg="oakd_yolov4" type="oakd_yolov4_monitor" output="screen"/>
 </launch>

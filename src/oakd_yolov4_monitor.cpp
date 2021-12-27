@@ -20,6 +20,11 @@
 #define OAKD_YOLO_MONITOR_QUEUE_SIZE 15
 #define OAKD_YOLO_MONITOR_DENOMINATOR 0.066666667
 
+////////////////////////////////////////////////////////////////
+// todo:
+// chage human_~~ names.
+// detection target should be not only human.
+
 namespace oakd_ros
 {
     typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, depthai_ros_msgs::SpatialDetectionArray> DepthAiSyncPolicy;
@@ -177,6 +182,13 @@ namespace oakd_ros
                     shortest_dist = dist_sqr;
                     nearest_human_idx = i;
                 }
+
+                ROS_INFO(
+                    "got detection {%d: %s} <score: %lf>",
+                    id,
+                    labels[id].c_str(),
+                    detected_msg->detections[i].results[0].score
+                );
             }
 
             double width_x(detected_msg->detections[i].bbox.size_x * 0.5);
@@ -209,13 +221,13 @@ namespace oakd_ros
                 color
             );
 
-            ROS_INFO(
-                "got detection [%d] => {%d: %s} <score: %lf>",
-                i,
-                id,
-                labels[id].c_str(),
-                detected_msg->detections[i].results[0].score
-            );  
+            // ROS_INFO(
+            //     "got detection [%d] => {%d: %s} <score: %lf>",
+            //     i,
+            //     id,
+            //     labels[id].c_str(),
+            //     detected_msg->detections[i].results[0].score
+            // );  
         }
 
         geometry_msgs::Point temp_point(human_point_queue.front());

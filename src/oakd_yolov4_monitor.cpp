@@ -16,14 +16,9 @@
 #define OAKD_YOLO_MONITOR_FONTPOS_X 0.25
 #define OAKD_YOLO_MONITOR_FONTPOS_Y 10.0
 #define OAKD_YOLO_MONITOR_HUMAN_ID 0
-#define OAKD_YOLO_MONITOR_BOTTLE_ID 39
+//#define OAKD_YOLO_MONITOR_BOTTLE_ID 39
 #define OAKD_YOLO_MONITOR_QUEUE_SIZE 15
 #define OAKD_YOLO_MONITOR_DENOMINATOR 0.066666667
-
-////////////////////////////////////////////////////////////////
-// todo:
-// chage human_~~ names.
-// detection target should be not only human.
 
 namespace oakd_ros
 {
@@ -170,7 +165,7 @@ namespace oakd_ros
 
             /////////////////////////////////////////////////////////////
             // here target id can be set.
-            if(id == OAKD_YOLO_MONITOR_BOTTLE_ID)
+            if(id == OAKD_YOLO_MONITOR_HUMAN_ID)
             {
                 human_pose_msg.poses.push_back(pose);
 
